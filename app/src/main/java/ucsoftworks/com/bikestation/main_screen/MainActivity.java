@@ -50,7 +50,7 @@ import ucsoftworks.com.bikestation.geolocation.GeolocationService;
 
 public class MainActivity extends Activity {
 
-    public static final String TAG = "GcmDemo";
+    public static final String TAG = "SmartBikes";
 
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static final String NOTIFICATION = "notification";

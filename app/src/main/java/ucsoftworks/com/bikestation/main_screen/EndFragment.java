@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,14 +29,14 @@ public class EndFragment extends Fragment {
 
     private static final String ARG_END_RENT_TIME = "username";
     private static final String ARG_RENT_TIME = "rentTime";
-    private static final String ARG_COST = "cost";
+    private static final String ARG_COST = "totalCost";
 
     private static final int FIRST_FORM = 0, SECOND_FORM = 1, THIRD_FORM = 2;
     private static final String[] HOUR_FORMS = {"час", "часа", "часов"}, MINUTE_FORMS = {"минута", "минуты", "минут"};
 
     private Time endRentTime;
     private Time rentTime;
-    private Float cost;
+    private Float totalCost;
 
     @InjectView(R.id.time_label)
     TextView timeField;
@@ -69,14 +70,15 @@ public class EndFragment extends Fragment {
     }
 
     private void initFromArguments(Bundle bundle) {
+        Log.d(MainActivity.TAG, "Received: " + bundle.toString());
         endRentTime.set(bundle.getLong(ARG_END_RENT_TIME));
         rentTime.set(bundle.getLong(ARG_RENT_TIME));
-        cost = bundle.getFloat(ARG_COST);
+        totalCost = bundle.getFloat(ARG_COST);
     }
 
     @Override
     public void onSaveInstanceState(android.os.Bundle outState) {
-        outState.putFloat(ARG_COST, cost);
+        outState.putFloat(ARG_COST, totalCost);
         outState.putLong(ARG_RENT_TIME, rentTime.toMillis(false));
         outState.putLong(ARG_END_RENT_TIME, endRentTime.toMillis(false));
         super.onSaveInstanceState(outState);
@@ -106,7 +108,7 @@ public class EndFragment extends Fragment {
         minutes = (int) (difference - (1000 * 60 * 60 * hours)) / (1000 * 60);
 
 
-        costField.setText(String.format("%.0f %s", cost * difference / (1000 * 60), "р."));
+        costField.setText(String.format("%.0f %s", totalCost, "р."));
         timeField.setText(String.format("%d %s %d %s", hours, HOUR_FORMS[getRussianForm(hours)], minutes, MINUTE_FORMS[getRussianForm(minutes)]));
 
         return view;
